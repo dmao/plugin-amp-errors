@@ -24,7 +24,7 @@ import './style.scss';
 /**
  * Internal dependencies
  */
-import Edit from './edit';
+//import Edit from './edit';
 import save from './save';
 
 /**
@@ -45,6 +45,7 @@ registerBlockType( 'create-block/amp-validation-statistics', {
 	 */
 	description: __(
 		'Amp Validation Statistics and template mode',
+		'create-block'
 	),
 
 	/**
@@ -70,7 +71,8 @@ registerBlockType( 'create-block/amp-validation-statistics', {
 	/**
 	 * @see ./edit.js
 	 */
-	edit: Edit,
+	Edit,
+
 
 	/**
 	 * @see ./save.js

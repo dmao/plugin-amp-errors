@@ -52,9 +52,31 @@ function create_block_amp_validation_statistics_block_init() {
 	);
 
 	register_block_type( 'create-block/amp-validation-statistics', array(
-		'editor_script' => 'create-block-amp-validation-statistics-block-editor',
-		'editor_style'  => 'create-block-amp-validation-statistics-block-editor',
-		'style'         => 'create-block-amp-validation-statistics-block',
-	) );
+		'editor_script'   => 'create-block-amp-validation-statistics-block-editor',
+		'editor_style'    => 'create-block-amp-validation-statistics-block-editor',
+		'style'           => 'create-block-amp-validation-statistics-block',
+		'render_callback' => 'render_dynamic_block',
+		'attributes'      => array(
+			'numberError' => array(
+				'type'    => 'string',
+				'default' => '4',
+			),
+		),
+	));
 }
 add_action( 'init', 'create_block_amp_validation_statistics_block_init' );
+
+/**
+ * Server rendering.
+ */
+function render_dynamic_block() {
+	// Get number of url.
+	$count_url = wp_count_posts( 'amp_validated_url' )->publish;
+	// Get number of errors.
+	$args        = array( 'taxonomy' => 'amp_validation_error' );
+	$terms       = get_terms( 'amp_validation_error', $args );
+	$count_error = count( $terms );
+
+	return '<h2>AMP validation statistics</h2><p>There are <span>' . $count_url . '</span> validated url</p>
+	<p>There are <span>' . $count_error . '</span> validation error</p>';
+}
