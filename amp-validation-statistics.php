@@ -31,6 +31,7 @@ function create_block_amp_validation_statistics_block_init() {
 	wp_register_script(
 		'create-block-amp-validation-statistics-block-editor',
 		plugins_url( $index_js, __FILE__ ),
+		array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor' ),
 		$script_asset['dependencies'],
 		$script_asset['version']
 	);
@@ -56,12 +57,6 @@ function create_block_amp_validation_statistics_block_init() {
 		'editor_style'    => 'create-block-amp-validation-statistics-block-editor',
 		'style'           => 'create-block-amp-validation-statistics-block',
 		'render_callback' => 'render_dynamic_block',
-		'attributes'      => array(
-			'numberError' => array(
-				'type'    => 'string',
-				'default' => '4',
-			),
-		),
 	));
 }
 add_action( 'init', 'create_block_amp_validation_statistics_block_init' );

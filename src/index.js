@@ -3,7 +3,10 @@
  *
  * @see https://developer.wordpress.org/block-editor/developers/block-api/#registering-a-block
  */
-import { registerBlockType } from '@wordpress/blocks';
+//import { registerBlockType } from '@wordpress/blocks';
+const { registerBlockType } = wp.blocks;
+import attributes from "./attributes";
+
 
 /**
  * Retrieves the translation of text.
@@ -24,7 +27,7 @@ import './style.scss';
 /**
  * Internal dependencies
  */
-//import Edit from './edit';
+import Edit from './edit';
 import save from './save';
 
 /**
@@ -68,11 +71,12 @@ registerBlockType( 'create-block/amp-validation-statistics', {
 		html: false,
 	},
 
+	attributes,
+
 	/**
 	 * @see ./edit.js
 	 */
-	Edit,
-
+	edit: Edit,
 
 	/**
 	 * @see ./save.js

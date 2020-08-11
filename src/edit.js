@@ -5,6 +5,12 @@
  */
 import { __ } from '@wordpress/i18n';
 
+/**
+ * Import ServerSideRender not available by default.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/server-side-render
+ */
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -13,6 +19,12 @@ import { __ } from '@wordpress/i18n';
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 import './editor.scss';
+
+/**
+ * Internal block libraries.
+ */
+const { InspectorControls } = wp.blockEditor;
+const { PanelBody, PanelRow, FormToggle } = wp.components;
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -25,12 +37,38 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( { className } ) {
+export default function Edit( props ) {
+	const { attributes: { ampMode }, setAttributes } = props;
+	const toggleAmpMode = () => setAttributes( { ampMode: ! ampMode } );
+
 	return (
-		<section className={ className }>
-			<h2>{ __( 'Amp Validation Statistics', 'amp-validation-stats' ) }</h2>
-			<p>There are validated URLs</p>
-			<p>There are validation errors</p>
-		</section>
+		<div>
+			<InspectorControls>
+				<PanelBody
+					title={ __( 'Additional Statistics', 'create-block' ) }
+					initialOpen={true}
+				>
+					<PanelRow>
+					 	<FormToggle
+							id="display-amp-mode-toggle"
+							label={ __( 'Display AMP template mode', 'create-block' ) }
+							checked={ ampMode }
+							onChange={ toggleAmpMode }
+						/>
+            <label
+              htmlFor="display-amp-mode-toggle"
+            >
+							{ __( 'Display AMP template mode', 'create-block' ) }
+						</label>
+					</PanelRow>
+				</PanelBody>
+			</InspectorControls>,
+			<div className={ props.className }>
+				<ServerSideRender
+					block="create-block/amp-validation-statistics"
+					//attributes={ props.attributes }
+				/>
+			</div>
+		</div>
 	);
 }
