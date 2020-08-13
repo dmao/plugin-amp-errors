@@ -6,13 +6,6 @@
 import { __ } from '@wordpress/i18n';
 
 /**
- * Import ServerSideRender not available by default.
- *
- * @see https://www.npmjs.com/package/@wordpress/server-side-render
- */
-import ServerSideRender from '@wordpress/server-side-render';
-
-/**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
  * Those files can contain any CSS code that gets applied to the editor.
  *
@@ -23,6 +16,10 @@ import './editor.scss';
 /**
  * Internal block libraries.
  */
+/**
+ * Destructure ServerSideRender.
+ */
+const { ServerSideRender } = wp.editor;
 const { InspectorControls } = wp.blockEditor;
 const { PanelBody, PanelRow, FormToggle } = wp.components;
 
@@ -66,7 +63,7 @@ export default function Edit( props ) {
 			<div className={ props.className }>
 				<ServerSideRender
 					block="create-block/amp-validation-statistics"
-					//attributes={ props.attributes }
+					attributes= { props.attributes }
 				/>
 			</div>
 		</div>
